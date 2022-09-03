@@ -1,0 +1,37 @@
+menu "Micro ros For RT-Thread"
+    menuconfig MICROROS_TRANSPORT
+    	config USING_MICROROS
+    		bool "using microROS"
+    		default y
+    	select MICROROS_SERIAL
+    	select MICROROS_UDP
+    	if USING_MICROROS
+        	choice
+           	prompt "Select transport"
+              	default MICROROS_SERIAL
+
+              	config MICROROS_SERIAL
+                   bool "serial"
+
+               config MICROROS_UDP
+                   bool "udp"
+        	endchoice
+        
+        	if MICROROS_SERIAL
+       		config MICROROS_DEVIVE
+       			string "uart device"
+       			default "uart1"
+       	endif		
+           
+        
+        	menu "example"
+        		config MICROS_EXAMPLE_PUB_INT32
+        			bool "select pub_int32"
+        			default y
+        		config MICROS_EXAMPLE_SUB_INT32
+        			bool "select sub_int32"
+        			default n 
+       	endmenu  
+       endif    	
+endmenu
+
