@@ -10,9 +10,9 @@ LIBPATH = []
 src = []
 
 if rtconfig.CROSS_TOOL == 'gcc':
-		LIBPATH = [cwd + '/build']
+		LIBPATH = [cwd + '/build/']
 
-LIBS += ['libmicroros.a' ]
+LIBS += ['microros' ]
 
 # The set of source files associated with this SConscript file.
 src	= Glob('microros_extensions/*.c')
@@ -22,10 +22,10 @@ path	+= [cwd + '/build/include']
 path	+= [cwd + '/microros_extensions']
 
 if GetDepend('MICROS_EXAMPLE_PUB_INT32'):
-    src    += Glob('examples/micro_ros_pub_int32/micro_ros_pub_int32.c')
+    src    += Glob('examples/micro_ros_pub_int32.c')
 
 if GetDepend('MICRO_ROS_USING_SUB_INT32'):
-    src    += Glob('examples/micro_ros_sub_int32/micro_ros_sub_int32.c')
+    src    += Glob('examples/micro_ros_sub_int32.c')
 
 LOCAL_CCFLAGS = ''
 

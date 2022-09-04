@@ -11,6 +11,7 @@
 #include <uxr/client/transport.h>
 #include <rmw_microros/rmw_microros.h>
 
+
 #if defined MICROROS_SERIAL
 
 bool   rtt_transport_open(struct uxrCustomTransport * transport);

@@ -1,9 +1,9 @@
-# 使用交叉编译 目标：嵌入式平台
+
 SET(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_CROSSCOMPILING 1)
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
-# 交叉编译链
-set(TOOLS /home/haijun/env_released_1.2.0/gcc-arm-none-eabi-5_4-2016q3/bin/)
+
+set(TOOLS /home/haijun/micro_ROS/question3/firmware/gcc-arm-none-eabi-5_4-2016q3/bin/)
 set(CMAKE_C_COMPILER ${TOOLS}arm-none-eabi-gcc)
 set(CMAKE_CXX_COMPILER ${TOOLS}arm-none-eabi-g++)
 
@@ -21,4 +21,3 @@ set(CMAKE_C_FLAGS_INIT "-std=c11 ${FLAGS} -DCLOCK_MONOTONIC=0 -D'__attribute__(x
 set(CMAKE_CXX_FLAGS_INIT "-std=c++11 ${FLAGS} -fno-rtti -DCLOCK_MONOTONIC=0 -D'__attribute__(x)='" CACHE STRING "" FORCE)
 
 set(__BIG_ENDIAN__ 0)
-
