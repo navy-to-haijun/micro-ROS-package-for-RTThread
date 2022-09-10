@@ -14,7 +14,7 @@ SET(CMAKE_CXX_COMPILER_WORKS 1 CACHE INTERNAL "")
 
 
 # SET HERE YOUR BUILDING FLAGS
-set(FLAGS "-O2 -mfloat-abi=softfp -mfpu=fpv5-sp-d16 -mfloat-abi=hard  -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -fno-exceptions -mcpu=cortex-m7 -DF_CPU=480000000L -DARDUINO=10813 -mthumb -DSTM32H750XX" CACHE STRING "" FORCE)
+set(FLAGS "-O2 -mfloat-abi=hard -mfpu=fpv5-d16 -mfloat-abi=hard  -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -fno-exceptions -mcpu=cortex-m7 -DF_CPU=480000000L -DARDUINO=10813 -mthumb -DSTM32H750XX" CACHE STRING "" FORCE)
 
 
 set(CMAKE_C_FLAGS_INIT "-std=c11 ${FLAGS} -DCLOCK_MONOTONIC=0 -D'__attribute__(x)='" CACHE STRING "" FORCE)

@@ -20,7 +20,7 @@ menu "Micro ros For RT-Thread"
         	if MICROROS_SERIAL
        		config MICROROS_DEVIVE
        			string "uart device"
-       			default "uart1"
+       			default "vcom"
        	endif		
            
         

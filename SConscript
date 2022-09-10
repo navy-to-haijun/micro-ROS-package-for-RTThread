@@ -24,11 +24,22 @@ path	+= [cwd + '/microros_extensions']
 if GetDepend('MICROS_EXAMPLE_PUB_INT32'):
     src    += Glob('examples/micro_ros_pub_int32.c')
 
-if GetDepend('MICRO_ROS_USING_SUB_INT32'):
+if GetDepend('MICROS_EXAMPLE_SUB_INT32'):
     src    += Glob('examples/micro_ros_sub_int32.c')
 
-LOCAL_CCFLAGS = ''
+if GetDepend('MICROS_EXAMPLE_PUB_SUB_INT32'):
+    src    += Glob('examples/micro_ros_pub_sub_int32.c')
 
+if GetDepend('MICROS_EXAMPLE_PING_PONG'):
+    src    += Glob('examples/micro_ros_ping_pong.c')
+
+if GetDepend('MICROS_EXAMPLE_ADDTWOINTS_CLIENT'):
+    src    += Glob('examples/micro_ros_addtwoints_client.c')
+
+if GetDepend('MICROS_EXAMPLE_ADDTWOINTS_SERVER'):
+    src    += Glob('examples/micro_ros_addtwoints_server.c')
+
+LOCAL_CCFLAGS = ''
 group = DefineGroup('microros', src, depend = ['USING_MICROROS'], CPPPATH = path, LOCAL_CCFLAGS = LOCAL_CCFLAGS, LIBS = LIBS, LIBPATH = LIBPATH)
 
 Return('group')
