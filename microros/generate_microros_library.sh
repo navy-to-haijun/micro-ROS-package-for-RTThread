@@ -35,19 +35,19 @@ echo ${FIRMARE_DIR}
 echo ${BUILD_DIR}
 
 # amnemt
-# mkdir -p ${FIRMARE_DIR}/micro_ros_dev
-# pushd ${FIRMARE_DIR}/micro_ros_dev > /dev/null
-# 	rm -rf build install log toolchain.cmake
+mkdir -p ${FIRMARE_DIR}/micro_ros_dev
+pushd ${FIRMARE_DIR}/micro_ros_dev > /dev/null
+	rm -rf build install log toolchain.cmake
 
-#     git clone -b galactic https://github.com/ament/ament_cmake src/ament_cmake
-#     git clone -b galactic https://github.com/ament/ament_lint src/ament_lint
-#     git clone -b galactic https://github.com/ament/ament_package src/ament_package
-# 	git clone -b galactic https://github.com/ament/googletest src/googletest
-# 	git clone -b galactic https://github.com/ros2/ament_cmake_ros src/ament_cmake_ros
-# 	git clone -b galactic https://github.com/ament/ament_index src/ament_index
+    git clone -b galactic https://github.com/ament/ament_cmake src/ament_cmake
+    git clone -b galactic https://github.com/ament/ament_lint src/ament_lint
+    git clone -b galactic https://github.com/ament/ament_package src/ament_package
+	git clone -b galactic https://github.com/ament/googletest src/googletest
+	git clone -b galactic https://github.com/ros2/ament_cmake_ros src/ament_cmake_ros
+	git clone -b galactic https://github.com/ament/ament_index src/ament_index
 
-#     colcon build --cmake-args -DBUILD_TESTING=OFF
-# popd > /dev/null
+    colcon build --cmake-args -DBUILD_TESTING=OFF
+popd > /dev/null
 
 # lcean env
 export PATH=$(clean $PATH)
