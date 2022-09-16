@@ -66,16 +66,13 @@ bool rtt_udp_transport_open(struct uxrCustomTransport * transport)
 
 bool rtt_udp_transport_close(struct uxrCustomTransport * transport)
 {
-    // return (-1 == sock) ? true : (0 == closesocket(sock));
     return closesocket(sock);
 }
 
 size_t rtt_udp_transport_write(struct uxrCustomTransport * transport, const uint8_t *buf, size_t len, uint8_t *errcode)
 {
     size_t rv = 0;
-    // ssize_t bytes_sent = send(sock, (void*)buf, len, 0);
-    ssize_t bytes_sent = sendto(sock, (void*)buf, len, 0, (struct sockaddr *)&server_addr, sizeof(struct sockaddr)); 
-
+    ssize_t bytes_sent = send(sock, (void*)buf, len, 0);
     if (-1 != bytes_sent)
     {
         rv = (size_t)bytes_sent;
@@ -86,10 +83,8 @@ size_t rtt_udp_transport_write(struct uxrCustomTransport * transport, const uint
         *errcode = 1;
     }
     return rv;
-    // int num = sendto(sock, buf, len, 0, (struct sockaddr *)&server_addr, sizeof(struct sockaddr)); 
 }
 
-socklen_t addr_len;
 size_t rtt_udp_transport_read(struct uxrCustomTransport * transport, uint8_t *buf, size_t len, int timeout, uint8_t *errcode)
 {
     size_t rv = 0;
@@ -102,10 +97,7 @@ size_t rtt_udp_transport_read(struct uxrCustomTransport * transport, uint8_t *bu
         *errcode = 1;
         return 0;
     }
-    // ssize_t bytes_received = recv(sock, (void*)buf, len, 0);
-    addr_len = sizeof(struct sockaddr);
-    ssize_t bytes_received = recvfrom(sock, buf, len, 0, (struct sockaddr *)&server_addr, &addr_len);
-    // rt_kprintf("bytes_received = %d\n", bytes_received);
+    ssize_t bytes_received = recv(sock, (void*)buf, len, 0);
     if (-1 != bytes_received)
     {
         rv = (size_t)bytes_received;
@@ -117,7 +109,6 @@ size_t rtt_udp_transport_read(struct uxrCustomTransport * transport, uint8_t *bu
     }
 
     return rv;
-    // int ret = recvfrom(sock, buf, len, 0, (struct sockaddr *)&recv_addr, &addr_len);
 }
 
 #endif // MICRO_ROS_USE_SERIAL

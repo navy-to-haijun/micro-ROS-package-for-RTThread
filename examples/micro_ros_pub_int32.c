@@ -53,7 +53,7 @@ static void microros_pub_int32(int argc, char* argv[])
     #endif
 
     #if defined MICROROS_UDP
-    set_microros_udp_transports("192.168.31.130", 9999);
+    set_microros_udp_transports(MICROROS_IP, MICROROS_PORT);
     #endif
     allocator = rcl_get_default_allocator();
 

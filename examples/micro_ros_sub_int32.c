@@ -26,17 +26,19 @@
 #define RCSOFTCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){rt_kprintf("Failed status on line %d: %d. Continuing.\n",__LINE__,(int)temp_rc);}}
 
 static rcl_publisher_t publisher;
-rcl_subscription_t subscriber;
-std_msgs__msg__Int32 recv_msg;
-rclc_executor_t executor;
-rclc_support_t support;
-rcl_allocator_t allocator;
-rcl_node_t node;
+static rcl_subscription_t subscriber;
+static std_msgs__msg__Int32 recv_msg;
+static rclc_executor_t executor;
+static rclc_support_t support;
+static rcl_allocator_t allocator;
+static rcl_node_t node;
 
-void subscription_callback(const void * msgin)
+static int count= 0;
+static void subscription_callback(const void * msgin)
 {
+    count ++;
 	const std_msgs__msg__Int32 * msg = (const std_msgs__msg__Int32 *)msgin;
-	rt_kprintf("Received: %d\n", msg->data);
+	rt_kprintf("%d: Received: %d\n", count, msg->data);
 }
 
 static void microros_sub_int32_thread_entry(void *parameter)
@@ -57,11 +59,8 @@ static void microros_sub_int32(int argc, char* argv[])
 
 #if defined MICROROS_UDP
     // TCP setup
-     set_microros_udp_transports("192.168.31.130", 9999);
+     set_microros_udp_transports(MICROROS_IP, MICROROS_PORT);
 #endif
-
-
-    // rt_pin_mode(LED_PIN, PIN_MODE_OUTPUT);
 
     allocator = rcl_get_default_allocator();
     // create init_options
@@ -77,10 +76,8 @@ static void microros_sub_int32(int argc, char* argv[])
 		"micro_ros_rtt_node_subscriber"));
     
     // create executor
-	// executor = rclc_executor_get_zero_initialized_executor();
 	RCCHECK(rclc_executor_init(&executor, &support.context, 1, &allocator));
 	RCCHECK(rclc_executor_add_subscription(&executor, &subscriber, &recv_msg, &subscription_callback, ON_NEW_DATA));
-
 
     rt_thread_t thread = rt_thread_create("mr_subint32", microros_sub_int32_thread_entry, RT_NULL, 2048, 25, 10);
     if(thread != RT_NULL)

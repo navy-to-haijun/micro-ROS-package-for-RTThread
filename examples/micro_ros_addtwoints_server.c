@@ -30,7 +30,7 @@ void service_callback(const void * req, void * res){
    example_interfaces__srv__AddTwoInts_Request * req_in = (example_interfaces__srv__AddTwoInts_Request *) req;
    example_interfaces__srv__AddTwoInts_Response * res_in = (example_interfaces__srv__AddTwoInts_Response *) res;
 
-  rt_kprintf("Service request value: %d + %d.\n", req_in->a, req_in->b);
+  rt_kprintf("Service request value: %d + %d.\n", (int)req_in->a, (int)req_in->b);
 
   res_in->sum = req_in->a + req_in->b;
 }
@@ -54,7 +54,7 @@ static void microros_addtwoints_server(int argc, char* argv[])
 
 #if defined MICROROS_UDP
     // TCP setup
-     set_microros_udp_transports("192.168.31.130", 9999);
+     set_microros_udp_transports(MICROROS_IP, MICROROS_PORT);
 #endif
 
     allocator = rcl_get_default_allocator();

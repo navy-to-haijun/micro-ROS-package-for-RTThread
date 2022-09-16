@@ -10,16 +10,16 @@ LIBPATH = []
 src = []
 
 if rtconfig.CROSS_TOOL == 'gcc':
-		LIBPATH = [cwd + '/build/']
+		LIBPATH = [cwd + '/microros/build/']
 
 LIBS += ['microros' ]
 
 # The set of source files associated with this SConscript file.
-src	= Glob('microros_extensions/*.c')
+src	= Glob('transports/*.c')
 
 path	= [cwd]
-path	+= [cwd + '/build/include']
-path	+= [cwd + '/microros_extensions']
+path	+= [cwd + '/microros/build/include']
+path	+= [cwd + '/transports']
 
 if GetDepend('MICROS_EXAMPLE_PUB_INT32'):
     src    += Glob('examples/micro_ros_pub_int32.c')

@@ -102,7 +102,7 @@ static void microros_ping_pong(int argc, char* argv[])
 
 #if defined MICROROS_UDP
     // TCP setup
-     set_microros_udp_transports("192.168.31.130", 9999);
+     set_microros_udp_transports(MICROROS_IP, MICROROS_PORT);
 #endif
     allocator = rcl_get_default_allocator();
 
@@ -116,13 +116,13 @@ static void microros_ping_pong(int argc, char* argv[])
 	RCCHECK(rclc_publisher_init_default(&ping_publisher, &node, ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Header), "/microROS/ping"));
 
 	// Create a best effort pong publisher
-	RCCHECK(rclc_publisher_init_default(&pong_publisher, &node, ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Header), "/microROS/pong"));
+	RCCHECK(rclc_publisher_init_best_effort(&pong_publisher, &node, ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Header), "/microROS/pong"));
 
 	// Create a best effort ping subscriber
-	RCCHECK(rclc_subscription_init_default(&ping_subscriber, &node, ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Header), "/microROS/ping"));
-
+	RCCHECK(rclc_subscription_init_best_effort(&ping_subscriber, &node, ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Header), "/microROS/ping"));
+	
 	// Create a best effort  pong subscriber
-	RCCHECK(rclc_subscription_init_default(&pong_subscriber, &node, ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Header), "/microROS/pong"));
+	RCCHECK(rclc_subscription_init_best_effort(&pong_subscriber, &node, ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Header), "/microROS/pong"));
 
 
 	// Create a 2 seconds ping timer timer,

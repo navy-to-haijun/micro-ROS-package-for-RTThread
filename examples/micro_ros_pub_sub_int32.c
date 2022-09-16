@@ -27,10 +27,8 @@ static rcl_subscription_t subscriber;
 static std_msgs__msg__Int32 send_msg;
 static std_msgs__msg__Int32 recv_msg;
 
-// rcl_init_options_t init_options;
-// rmw_init_options_t* rmw_options;
 
-void timer_callback(rcl_timer_t * timer, int64_t last_call_time)
+static void timer_callback(rcl_timer_t * timer, int64_t last_call_time)
 {
 	(void) last_call_time;
 	if (timer != NULL) {
@@ -40,7 +38,7 @@ void timer_callback(rcl_timer_t * timer, int64_t last_call_time)
 	}
 }
 
-void subscription_callback(const void * msgin)
+static void subscription_callback(const void * msgin)
 {
 	const std_msgs__msg__Int32 * msg = (const std_msgs__msg__Int32 *)msgin;
 	rt_kprintf("Received: %d\n", msg->data);
@@ -64,7 +62,7 @@ static void microros_pub_sub(int argc, char* argv[])
 
 #if defined MICROROS_UDP
     // TCP setup
-     set_microros_udp_transports("192.168.31.130", 9999);
+     set_microros_udp_transports(MICROROS_IP, MICROROS_PORT);
 #endif
 
 	allocator = rcl_get_default_allocator();
@@ -79,6 +77,7 @@ static void microros_pub_sub(int argc, char* argv[])
 		&node,
 		ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Int32),
 		"std_msgs_msg_Int32"));
+	
     RCCHECK(rclc_subscription_init_default(
 		&subscriber,
 		&node,

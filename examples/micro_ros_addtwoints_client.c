@@ -50,7 +50,7 @@ static void microros_addtwoints_client(int argc, char* argv[])
 
 #if defined MICROROS_UDP
     // TCP setup
-     set_microros_udp_transports("192.168.31.130", 9999);
+     set_microros_udp_transports(MICROROS_IP, MICROROS_PORT);
 #endif
 
     allocator = rcl_get_default_allocator();
