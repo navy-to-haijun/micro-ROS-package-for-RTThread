@@ -1,6 +1,6 @@
 # micro-ROS-package-for-RTThread
 
-This package has been tested in RT-Thread v4.1.0 with [STMH750-ART-Pi](https://github.com/RT-Thread-Studio/sdk-bsp-stm32h750-realthread-artpi).
+This package has been tested in RT-Thread v4.1.1 with [STMH750-ART-Pi](https://github.com/RT-Thread-Studio/sdk-bsp-stm32h750-realthread-artpi).
 
 ## Dependencies
 
@@ -14,7 +14,7 @@ pip3 install catkin_pkg lark-parser empy colcon-common-extensions
 
 ### Supported board
 
- RT-Thread v4.1.0 with [STMH750-ART-Pi](https://github.com/RT-Thread-Studio/sdk-bsp-stm32h750-realthread-artpi)
+ RT-Thread v4.1.1 with [STMH750-ART-Pi](https://github.com/RT-Thread-Studio/sdk-bsp-stm32h750-realthread-artpi)
 
 ### Creating micro-ROS firmware 
 
@@ -125,7 +125,7 @@ add_definitions(-DMICROROS_SERIAL)
 add_definitions(-DMICROROS_DEVIVE="vcom")
 list(APPEND PROJECT_SOURCES micro-ROS-rtthread-app/transports/rtt_serial_transports.c)
 
-#  teansport: serial（optional）
+#  teansport: UDP（optional）
 # add_definitions(-DMICROROS_UDP)
 # add_definitions(-DMICROROS_IP="192.168.31.130")
 # add_definitions(-DMICROROS_PORT=9999)
