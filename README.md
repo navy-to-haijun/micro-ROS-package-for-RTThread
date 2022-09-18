@@ -129,7 +129,7 @@ list(APPEND PROJECT_SOURCES micro-ROS-rtthread-app/transports/rtt_serial_transpo
 # add_definitions(-DMICROROS_UDP)
 # add_definitions(-DMICROROS_IP="192.168.31.130")
 # add_definitions(-DMICROROS_PORT=9999)
-# list(APPEND PROJECT_SOURCES micro-ROS-rtthread-app/transports/rtt_serial_transports.c)
+# list(APPEND PROJECT_SOURCES micro-ROS-rtthread-app/transports/rtt_udp_transport.c.c)
 
 # example 
 # pub_int32 （optional）
