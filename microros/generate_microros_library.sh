@@ -125,7 +125,7 @@ pushd ${FIRMARE_DIR}/micro_ros_src > /dev/null
 		-DBUILD_SHARED_LIBS=OFF 			\
 		-DBUILD_TESTING=OFF					\
 		-DCMAKE_BUILD_TYPE=Debug 			\
-		-DCMAKE_TOOLCHAIN_FILE=$FIRMARE_DIR/micro_ros_dev/toolchain.cmake	 	\
+		-DCMAKE_TOOLCHAIN_FILE=$FIRMARE_DIR/toolchain.cmake	 	\
 		-DCMAKE_VERBOSE_MAKEFILE=ON  		\
 
 	
