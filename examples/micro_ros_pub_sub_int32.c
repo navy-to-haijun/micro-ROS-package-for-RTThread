@@ -98,15 +98,15 @@ static void microros_pub_sub(int argc, char* argv[])
 	RCCHECK(rclc_executor_add_timer(&executor, &timer));
     RCCHECK(rclc_executor_add_subscription(&executor, &subscriber, &recv_msg, &subscription_callback, ON_NEW_DATA));
 
-    rt_thread_t thread = rt_thread_create("ping_pong", microros_pub_sub_thread_entry, RT_NULL, 2048, 18, 10);
+    rt_thread_t thread = rt_thread_create("pub_sub_int32", microros_pub_sub_thread_entry, RT_NULL, 2048, 18, 10);
     if(thread != RT_NULL)
     {
         rt_thread_startup(thread);
-        rt_kprintf("[micro_ros] New thread ping_pong\n");
+        rt_kprintf("[micro_ros] New thread pub_sub_int32\n");
     }
     else
     {
-        rt_kprintf("[micro_ros] Failed to create thread ping_pong\n");
+        rt_kprintf("[micro_ros] Failed to create thread pub_sub_int32\n");
     }
 
 }

@@ -21,7 +21,7 @@ int clock_gettime(clockid_t unused, struct timespec *tp)
     static uint32_t rollover = 0;
     static uint32_t last_measure = 0;
 
-    uint32_t m = rt_tick_get() * 1000 / RT_TICK_PER_SECOND * 1000;
+    uint64_t m = rt_tick_get() * 1000 / RT_TICK_PER_SECOND * 1000;
 
     rollover += (m < last_measure) ? 1 : 0;
 
