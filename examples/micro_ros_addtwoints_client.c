@@ -22,8 +22,8 @@ static rclc_executor_t executor;
 #define RCCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){rt_kprintf("Failed status on line %d: %d. Aborting.\n",__LINE__,(int)temp_rc); return;}}
 #define RCSOFTCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){rt_kprintf("Failed status on line %d: %d. Continuing.\n",__LINE__,(int)temp_rc);}}
 
-example_interfaces__srv__AddTwoInts_Request req;
-example_interfaces__srv__AddTwoInts_Response res;
+static example_interfaces__srv__AddTwoInts_Request req;
+static example_interfaces__srv__AddTwoInts_Response res;
 
 
 void client_callback(const void * msg){

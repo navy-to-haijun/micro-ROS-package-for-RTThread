@@ -23,10 +23,6 @@ X_CXX=$2
 CFLAGS_INTERNAL=$3
 CXXFLAGS_INTERNAL=$4
 
-echo "Using X_CC: $X_CC"
-echo "Using X_CXX: $X_CXX"
-echo "Using CFLAGS_INTERNAL: $CFLAGS_INTERNAL"
-echo "Using CXXFLAGS_INTERNAL: $CXXFLAGS_INTERNAL"
 
 FIRMARE_DIR=$(pwd)
 BUILD_DIR=$(pwd)/build
@@ -60,10 +56,17 @@ set -o nounset
 
 # toolchain.cmake
 
-ESCAPED_CFLAGS_INTERNAL=$(echo $CFLAGS_INTERNAL | sed 's/\//\\\//g' | sed 's/"//g')
-ESCAPED_CXXFLAGS_INTERNAL=$(echo $CXXFLAGS_INTERNAL | sed 's/\//\\\//g' | sed 's/"//g')
+ESCAPED_CFLAGS_INTERNAL=$(echo $CFLAGS_INTERNAL | sed 's/-Dgcc//g' | sed 's/-gdwarf-2//g' | sed 's/-g//g')
+ESCAPED_CXXFLAGS_INTERNAL=$(echo $CXXFLAGS_INTERNAL | sed 's/-Dgcc//g' | sed 's/-gdwarf-2//g' | sed 's/-g//g')
 ESCAPED_X_CC=$(echo $X_CC | sed 's/\//\\\//g' | sed 's/"//g')
 ESCAPED_X_CXX=$(echo $X_CXX | sed 's/\//\\\//g' | sed 's/"//g')
+
+echo "Using X_CC: $X_CC"
+echo "Using X_CXX: $X_CXX"
+
+echo ${ESCAPED_CFLAGS_INTERNAL}
+echo ${ESCAPED_CXXFLAGS_INTERNAL}
+
 
 cat $FIRMARE_DIR/toolchain.cmake.in | \
     sed "s/@CMAKE_C_COMPILER@/$ESCAPED_X_CC/g" | \
@@ -124,7 +127,7 @@ pushd ${FIRMARE_DIR}/micro_ros_src > /dev/null
 		-DTHIRDPARTY=ON 					\
 		-DBUILD_SHARED_LIBS=OFF 			\
 		-DBUILD_TESTING=OFF					\
-		-DCMAKE_BUILD_TYPE=Debug 			\
+		-DCMAKE_BUILD_TYPE=Release 			\
 		-DCMAKE_TOOLCHAIN_FILE=$FIRMARE_DIR/toolchain.cmake	 	\
 		-DCMAKE_VERBOSE_MAKEFILE=ON  		\
 
@@ -145,5 +148,12 @@ pushd ${FIRMARE_DIR}/micro_ros_src > /dev/null
 	cd ..; rm -rf libmicroros;
 
 popd > /dev/null
+
+pushd ${FIRMARE_DIR}/build/include/rmw > /dev/null
+	sed -i 's/__attribute__((deprecated(msg)))//g' types.h
+
+popd > /dev/null
+
+cd 
 
 

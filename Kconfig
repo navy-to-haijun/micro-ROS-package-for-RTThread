@@ -45,6 +45,12 @@ menu "micro-ROS For RT-Thread"
 				config MICROS_EXAMPLE_PING_PONG
 					bool "select ping pong"
 					default n
+				config MICROS_EXAMPLE_ADDTWOINTS_SERVER
+					bool "select service server"
+					default n
+				config MICROS_EXAMPLE_SUB_TWIST
+					bool "select sub_twist"
+					default n
        		endmenu   	
 endmenu
 

@@ -9,6 +9,7 @@
 #include <rclc/executor.h>
 
 #include "example_interfaces/srv/add_two_ints.h"
+#include <std_msgs/msg/int64.h>
 
 #include <stdio.h>
 #include <unistd.h>
@@ -23,16 +24,15 @@ static rclc_executor_t executor;
 #define RCSOFTCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){rt_kprintf("Failed status on line %d: %d. Continuing.\n",__LINE__,(int)temp_rc);}}
 
 
-example_interfaces__srv__AddTwoInts_Request req;
-example_interfaces__srv__AddTwoInts_Response res;
+static example_interfaces__srv__AddTwoInts_Request req;
+static example_interfaces__srv__AddTwoInts_Response res;
 
 void service_callback(const void * req, void * res){
    example_interfaces__srv__AddTwoInts_Request * req_in = (example_interfaces__srv__AddTwoInts_Request *) req;
    example_interfaces__srv__AddTwoInts_Response * res_in = (example_interfaces__srv__AddTwoInts_Response *) res;
 
-  rt_kprintf("Service request value: %d + %d.\n", (int)req_in->a, (int)req_in->b);
-
   res_in->sum = req_in->a + req_in->b;
+  rt_kprintf("Service request value: %d + %d.\n", (int)req_in->a, (int)req_in->b);
 }
 
 static void microros_addtwoint_server_thread_entry(void *parameter)

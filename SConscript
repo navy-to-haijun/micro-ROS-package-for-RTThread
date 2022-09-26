@@ -38,6 +38,8 @@ if GetDepend('MICROS_EXAMPLE_ADDTWOINTS_CLIENT'):
 
 if GetDepend('MICROS_EXAMPLE_ADDTWOINTS_SERVER'):
     src    += Glob('examples/micro_ros_addtwoints_server.c')
+if GetDepend('MICROS_EXAMPLE_SUB_TWIST'):
+    src    += Glob('examples/micro_ros_sub_twist.c')
 
 LOCAL_CCFLAGS = ''
 group = DefineGroup('microros', src, depend = ['USING_MICROROS'], CPPPATH = path, LOCAL_CCFLAGS = LOCAL_CCFLAGS, LIBS = LIBS, LIBPATH = LIBPATH)
