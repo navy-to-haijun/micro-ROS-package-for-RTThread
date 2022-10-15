@@ -4,14 +4,14 @@
 
 ## 概述
 
-2022开源之夏[2022开源之夏](https://summer-ospp.ac.cn/#/org/prodetail/22f330436)项目：microROS 添加 RT-Thread 支持。第二三问的code使用教程。代码在上测试
+2022开源之夏[2022开源之夏](https://summer-ospp.ac.cn/#/org/prodetail/22f330436)项目：microROS 添加 RT-Thread 支持。使用教程。
 
 将microROS添加到RT-Thread支持，提供以下两种方式：
 
 * 在ROS2的环境中，基于`micro_ros_setup`软件包实现；
 * 在cmake的环境中，基于shell脚本实现；
 
-测试环境：[STMH750-ART-Pi](https://github.com/RT-Thread-Studio/sdk-bsp-stm32h750-realthread-artpi), ROS 2： galactic
+测试环境：[STMH750-ART-Pi](https://github.com/RT-Thread-Studio/sdk-bsp-stm32h750-realthread-artpi),  ROS 2： galactic
 
 ## micro_ros_setup
 
@@ -166,9 +166,11 @@ micro-ROS-rtthread-app:
     └── rtt_udp_transport.c
 ```
 
+### 3. 配置UDP/UART 
 
+自我配置，确保基本可以通信成功
 
-### 2. rtthead 支持 cmake构建
+### 3. rtthead 支持 cmake构建
 
 ```bash
 # 在rtconfig.py 中 添加 gcc-arm-none-eabi-5_4 的编译路径
@@ -184,12 +186,12 @@ ln -s ../../rt-thread/ rt-thread
 scons --target=cmake
 ```
 
-### 3. 修改 工程目录下的`CMakeLists.txt`，支持microROS
+### 4. 修改 工程目录下的`CMakeLists.txt`，支持microROS， 添加通信方式、添加demo
 
 代码添加到`ADD_EXECUTABLE()`之前
 
 ```cmake
-# build micro-ROS : make build_microros
+
 # build micro-ROS : make build_microros
 add_custom_target(build_microros
 	WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/micro-ROS-rtthread-app/microros"
@@ -217,6 +219,76 @@ LINK_LIBRARIES(microros)
 ```
 
 ```bash
-
+cd build
+cmke ..
+make build_microros
+make
 ```
 
+然后可以下载可执行文件
+
+macroROS 静态库和头文件路径:`micro-ROS-rtthread-app/microros/build`
+
+编译可能会报错：
+
+```bash
+In file included from micro-ROS-rtthread-app/microros/build/include/rmw/qos_profiles.h:23:0,
+                 from micro-ROS-rtthread-app/microros/build/include/rmw/rmw.h:103,
+                 from micro-ROS-rtthread-app/microros/build/include/rmw_microros/rmw_microros.h:20,
+                 from micro-ROS-rtthread-app/transports/micro_ros_rtt.h:9,
+                 from micro-ROS-rtthread-app/examples/micro_ros_pub_int32.c:3:
+micro-ROS-rtthread-app/microros/build/include/rmw/types.h:418:49: error: expected ',' or '}' before '__attribute__'
+ # define RMW_DECLARE_DEPRECATED(name, msg) name __attribute__((deprecated(msg))
+                                                 ^
+micro-ROS-rtthread-app/microros/build/include/rmw/types.h:438:3: note: in expansion of macro 'RMW_DECLARE_DEPRECATED'
+   RMW_DECLARE_DEPRECATED(
+   ^
+In file included from micro-ROS-rtthread-app/microros/build/include/rmw/rmw.h:103:0,
+                 from micro-ROS-rtthread-app/microros/build/include/rmw_microros/rmw_microros.h:20,
+                 from micro-ROS-rtthread-app/transports/micro_ros_rtt.h:9,
+                 from micro-ROS-rtthread-app/examples/micro_ros_pub_int32.c:3:
+micro-ROS-rtthread-app/microros/build/include/rmw/qos_profiles.h:111:3: error: 'RMW_QOS_POLICY_LIVELINESS_UNKNOWN' undeclared here (not in a function)
+   RMW_QOS_POLICY_LIVELINESS_UNKNOWN,
+```
+
+修改：`micro-ROS-rtthread-app/microros/build/include/rmw/types.h` 418行
+
+```c
+#ifndef _WIN32
+//# define RMW_DECLARE_DEPRECATED(name, msg) name __attribute__((deprecated(msg)))
+# define RMW_DECLARE_DEPRECATED(name, msg) name
+```
+
+### 5. 下载 运行
+
+```shell
+docker run -it --rm -v /dev:/dev --privileged --net=host microros/micro-ros-agent:galactic serial -D /dev/ttyACM1 -v6
+# or
+docker run -it --rm -v /dev:/dev --privileged --net=host microros/micro-ros-agent:galactic udp4 --port 9999 -v6
+```
+
+### 额外说明
+
+如果不喜欢cmake编译，可以只使用cmake编译microROS，然后使用scons编译
+
+```
+# 1. 在CMakeLists.txt添加microROS编译成静态库的code
+
+# build micro-ROS : make build_microros
+add_custom_target(build_microros
+	WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/micro-ROS-rtthread-app/microros"
+	COMMAND sh generate_microros_library.sh ${CMAKE_C_COMPILER} ${CMAKE_CXX_COMPILER} ${CMAKE_C_FLAGS} ${CMAKE_CXX_FLAGS}
+	COMMENT "build micro-ROS..."
+)
+
+# 2. 在Kcongfig中source micro-ROS-rtthread-app 的Kconfig
+source micro-ROS-rtthread-app/Kconfig
+# 3. 配置通信方式和demo
+ sons --menuconfig
+# 4. 编译
+sons
+```
+
+## 总结
+
+推荐使用shell脚本编译microROS，自由度较大，若出现编译错误，请检查是否路径有问题。
